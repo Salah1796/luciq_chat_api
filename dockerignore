@@ -1,0 +1,26 @@
+# Ignore Git
+.git
+.gitignore
+
+# Ignore logs and temp files
+log/*
+tmp/*
+node_modules/
+yarn-error.log
+
+# Ignore bundler config and local gems
+.bundle
+vendor/bundle
+
+# Ignore system files
+.DS_Store
+*.swp
+*.swo
+
+# Ignore Docker files if needed
+Dockerfile*
+docker-compose*.yml
+
+# Ignore credentials (optional if you manage them outside)
+config/master.key
+config/credentials/*.key

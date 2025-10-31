@@ -1,0 +1,58 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Ignore bundler config
+/.bundle
+/vendor/bundle
+/vendor/cache
+/vendor/ruby
+
+# Ignore Rails log files and temp files
+/log/*
+!/log/.keep
+/tmp
+!/tmp/.keep
+
+# Ignore database files
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore PID and server files
+/tmp/pids
+/tmp/cache
+/tmp/sockets
+/public/packs
+/public/packs-test
+
+# Ignore uploaded files
+/storage/*
+!/storage/.keep
+
+# Ignore node_modules
+/node_modules
+
+# Ignore Yarn & npm artifacts
+/yarn-error.log
+/package-lock.json
+/yarn.lock
+
+# Ignore environment files
+.env
+.env.*
+.byebug_history
+
+# Ignore system files
+.DS_Store
+.idea
+*.swp
+*.swo
+
+# Ignore coverage reports
+/coverage
+/test/tmp
+/spec/tmp
+
+# Ignore Rails secret master key
+/config/credentials/*.key
+
+# Ignore Docker overrides
+docker-compose.override.yml
