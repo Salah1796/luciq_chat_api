@@ -12,13 +12,10 @@ class ChatsController < ApplicationController
   def create
     redis_key = @application.redis_chats_counter_key
 
-    # زيادة الرقم في Redis لضمان التزامن
     number = REDIS.incr(redis_key)
 
-    # إرسال Job لحفظ الشات في DB
     PersistChatJob.perform_later(@application.id, number)
 
-    # إرجاع الرقم مباشرة للعميل
     render json: { number: number, messages_count: 0 }, status: :created
   end
 
