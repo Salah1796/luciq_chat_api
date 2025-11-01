@@ -18,7 +18,6 @@ class PersistMessageJob < ApplicationJob
       body: body
     )
 
-     # Index this message in Elasticsearch
     begin
       message.__elasticsearch__.index_document
       Rails.logger.info("✅  Message indexed in Elasticsearch: #{message.id}")

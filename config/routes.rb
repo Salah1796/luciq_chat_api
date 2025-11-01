@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   # Applications
   resources :applications, param: :token, only: [:index, :show, :create, :update] do
     # Chats nested under applications
-    resources :chats, param: :number, only: [:index, :create] do
+    resources :chats, param: :number, only: [:index,:show, :create] do
       # Messages nested under chats
-      resources :messages, only: [:index, :create] do
+      resources :messages, only: [:index, :show, :create] do
         collection do
           get :search
         end

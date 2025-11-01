@@ -6,11 +6,9 @@ class Message < ApplicationRecord
    include Searchable
    SEARCHABLE_FIELDS = [:body, :chat_id, :number, :created_at, :updated_at]
 
-   # Search messages in a specific chat with partial match
-def self.search_messages(query, chat_id)
-  return none unless chat_id.present?
-
-  es_query = {
+  def self.search_messages(query, chat_id)
+   return none unless chat_id.present?
+   __elasticsearch__.search(query: {
     bool: {
       must: query.present? ? [
         { wildcard: { body: "*#{query.downcase}*" } }
@@ -19,10 +17,7 @@ def self.search_messages(query, chat_id)
         { term: { chat_id: chat_id } }
       ]
     }
-  }
-
-  __elasticsearch__.search(query: es_query, sort: { created_at: { order: 'asc' } }).records
-end
-
-
+   }, sort: { created_at: { order: 'asc' } }).records
+  end
+ 
 end

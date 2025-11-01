@@ -1,14 +1,19 @@
 class ChatsController < ApplicationController
   before_action :set_application
 
-   # GET /applications/:application_token/chats
+   # GET /applications/{token}/chats
   def index
     chats = @application.chats.order(:number).select(:number, :messages_count)
     render json: chats.map { |c| { number: c.number, messages_count: c.messages_count } }
   end
 
+  # GET /applications/{token}/chats/{number}
+   def show
+     chat = @application.chats.find_by!(number: params[:number])
+     render json: { number: chat.number, messages_count: chat.messages_count }
+  end
   
- # POST /applications/:application_token/chats
+ # POST /applications/{token}/chats
   def create
     redis_key = @application.redis_chats_counter_key
 

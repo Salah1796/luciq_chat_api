@@ -1,13 +1,19 @@
 class MessagesController < ApplicationController
   before_action :set_chat
 
-  # GET applications/{token}/chats
+  # GET applications/{token}/chats/{number}/messages
   def index
     messages = @chat.messages.order(:number).select(:number, :body, :created_at)
     render json: messages.map { |m| {number: m.number, body: m.body , created_at: m.created_at } }
   end
 
-   # POST applications/{token}/chats
+  # GET applications/{token}/chats/{number}/messages/{number}
+  def show
+     message = @chat.messages.find_by!(number: params[:id])
+     render json: { number: message.number, body: message.body, created_at: message.created_at }
+  end
+
+   # POST applications/{token}/chats/{number}/messages
   def create
     redis_key = @chat.redis_messages_counter_key
     number = REDIS.incr(redis_key)
@@ -17,14 +23,14 @@ class MessagesController < ApplicationController
 
   # GET applications/{token}/chats/{number}/messages/search?q={someText}
   def search
-    query = params[:q].to_s.strip
+     query = params[:q].to_s.strip
 
-   results = Message.search_messages(query, @chat.id)
+    results = Message.search_messages(query, @chat.id)
 
-  render json: results.map { |m| { number: m.number, body: m.body, created_at: m.created_at } }
-  rescue => e
-    Rails.logger.error("[MessagesController] Search error: #{e.message}")
-    render json: { error: "Search failed" }, status: :internal_server_error
+    render json: results.map { |m| { number: m.number, body: m.body, created_at: m.created_at } }
+    rescue => e
+           Rails.logger.error("[MessagesController] Search error: #{e.message}")
+           render json: { error: "Search failed" }, status: :internal_server_error
   end
 
   private

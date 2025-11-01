@@ -10,6 +10,6 @@ class Chat < ApplicationRecord
 
 
    def redis_messages_counter_key
-    "#{application.id.to_s}_#{id}_messages_counter"
+    "#{application.id}_#{id}_messages_counter"
   end
 end
