@@ -1,14 +1,12 @@
 class Message < ApplicationRecord
+  belongs_to :chat
+  validates :number, presence: true, uniqueness: { scope: :chat_id }
+  validates :body, presence: true
 
    include Searchable
    SEARCHABLE_FIELDS = [:body, :chat_id, :number, :created_at, :updated_at]
 
-  belongs_to :chat, counter_cache: :messages_count
-
-  validates :number, presence: true, uniqueness: { scope: :chat_id }
-  validates :body, presence: true
-
-  # Search messages in a specific chat with partial match
+   # Search messages in a specific chat with partial match
 def self.search_messages(query, chat_id)
   return none unless chat_id.present?
 

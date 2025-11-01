@@ -8,3 +8,9 @@
     class: SyncRedisCountersJob
     queue: default
     description: "Syncs Redis chat counters with the database"
+
+  update_counters_jb:
+    cron: "* * * * *"
+    class: UpdateCountersJob
+    queue: default
+    description: "Updates cached counters for chats and messages"
