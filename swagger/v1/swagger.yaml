@@ -1,0 +1,195 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/applications":
+    get:
+      summary: List all applications
+      tags:
+      - Applications
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: Create an application
+      tags:
+      - Applications
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+  "/applications/{token}":
+    parameters:
+    - name: token
+      in: path
+      description: Application token
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show application details
+      tags:
+      - Applications
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: Update an application
+      tags:
+      - Applications
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+  "/applications/{application_token}/chats":
+    parameters:
+    - name: application_token
+      in: path
+      description: Application token
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List all chats for an application
+      tags:
+      - Chats
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: Create a chat under an application
+      tags:
+      - Chats
+      responses:
+        '201':
+          description: created
+  "/applications/{application_token}/chats/{number}":
+    parameters:
+    - name: application_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: number
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show a chat by number
+      tags:
+      - Chats
+      responses:
+        '200':
+          description: successful
+  "/applications/{application_token}/chats/{chat_number}/messages":
+    parameters:
+    - name: application_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: chat_number
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: List all messages in a chat
+      tags:
+      - Messages
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: Create a new message
+      tags:
+      - Messages
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+              required:
+              - body
+  "/applications/{application_token}/chats/{chat_number}/messages/{id}":
+    parameters:
+    - name: application_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: chat_number
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show message details
+      tags:
+      - Messages
+      responses:
+        '200':
+          description: successful
+  "/applications/{application_token}/chats/{chat_number}/messages/search":
+    parameters:
+    - name: application_token
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: chat_number
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: q
+      in: query
+      description: Search query
+      schema:
+        type: string
+    get:
+      summary: Search messages in chat
+      tags:
+      - Messages
+      responses:
+        '200':
+          description: successful
+servers:
+- url: http://localhost:3000
+  description: Local server
+  variables:
+    defaultHost:
+      default: localhost:3000
