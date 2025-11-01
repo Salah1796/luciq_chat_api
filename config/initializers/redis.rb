@@ -8,3 +8,7 @@ REDIS = Redis.new(
   db: ENV.fetch("REDIS_DB", 0)
 )
 
+APPLICATION_LIST_CACHE_KEY = "applications"
+CHATS_LIST_CACHE_KEY = "application:{token}:chats"
+Messages_LIST_CACHE_KEY = "application:{token}:chat:{number}:messages"
+

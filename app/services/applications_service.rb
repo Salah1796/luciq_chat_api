@@ -1,8 +1,11 @@
 class ApplicationsService
   def self.list
-    Application.pluck(:name, :token, :chats_count).map do |name, token, chats_count|
-      { name: name, token: token, chats_count: chats_count }
-    end
+    Rails.cache.fetch(APPLICATION_LIST_CACHE_KEY, expires_in: 1.hour) do
+      Rails.logger.info "Reading applications from the database."
+      Application.pluck(:name, :token, :chats_count).map do |name, token, chats_count|
+        { name: name, token: token, chats_count: chats_count }
+      end
+    end.tap { |data| Rails.logger.info "Reading applications from the cache." if data }
   end
 
   def self.find_by_token(token)
@@ -19,6 +22,7 @@ class ApplicationsService
   def self.update(token, name)
     app = Application.find_by!(token: token)
     app.update!(name: name)
+    Rails.cache.delete(APPLICATION_LIST_CACHE_KEY)
     { name: app.name, token: app.token, chats_count: app.chats_count }
   end
 end

@@ -19,7 +19,8 @@ class PersistChatJob < ApplicationJob
 
     end_time = Time.current
     Rails.logger.info "✅ PersistChatJob finished at #{end_time} | app_id=#{application_id}, number=#{number} (elapsed #{end_time - start_time} sec)"
-
+    cache_key = CHATS_LIST_CACHE_KEY.gsub("{token}", application.token)
+    Rails.cache.delete(cache_key)
   rescue ActiveRecord::RecordNotUnique => e
     Rails.logger.warn "⚠️ Duplicate Chat: app_id=#{application_id}, number=#{number} (#{e.message})"
   rescue StandardError => e

@@ -2,7 +2,7 @@ class PersistMessageJob < ApplicationJob
   retry_on StandardError, wait: 10.seconds, attempts: 5
   queue_as :default
 
-  def perform(chat_id, number, body)
+  def perform(chat_id, number, body,token)
     start_time = Time.current
     Rails.logger.info "🔔 PersistMessageJob started at #{start_time} | chat_id=#{chat_id}, number=#{number}"
 
@@ -17,7 +17,9 @@ class PersistMessageJob < ApplicationJob
       number: number,
       body: body
     )
-
+     cache_key = Messages_LIST_CACHE_KEY.gsub("{token}", token).gsub("{number}", chat.number.to_s)
+     Rails.cache.delete(cache_key)
+    
     begin
       message.__elasticsearch__.index_document
       Rails.logger.info("✅  Message indexed in Elasticsearch: #{message.id}")

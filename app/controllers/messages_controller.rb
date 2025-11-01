@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
 
   # GET applications/{token}/chats/{number}/messages
   def index
-    data = MessagesService.list(@chat)
+    data = MessagesService.list(@chat, params[:application_token])
     render_success(data: data, message: "Messages retrieved successfully")
   end
 
@@ -17,7 +17,7 @@ class MessagesController < ApplicationController
   def create
     
     return render_error(message: "body is missing", status: :bad_request) if params[:body].blank?
-    data = MessagesService.create(@chat, params[:body])
+    data = MessagesService.create(@chat, params[:body],params[:application_token])
     render_success(data: data, message: "Message created successfully", status: :created)
   end
 
