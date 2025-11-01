@@ -4,13 +4,15 @@ class ChatsController < ApplicationController
    # GET /applications/{token}/chats
   def index
     chats = @application.chats.order(:number).pluck(:number, :messages_count)
-    render json: chats.map { |number, messages_count| { number: number, messages_count: messages_count } }
+    data = chats.map { |number, messages_count| { number: number, messages_count: messages_count } }
+    render_success(data: data, message: "Chats retrieved successfully")
   end
 
   # GET /applications/{token}/chats/{number}
    def show
      chat = @application.chats.find_by!(number: params[:number])
-     render json: { number: chat.number, messages_count: chat.messages_count }
+     data = { number: chat.number, messages_count: chat.messages_count }
+     render_success(data: data, message: "Chat retrieved successfully")
   end
   
  # POST /applications/{token}/chats
@@ -20,8 +22,8 @@ class ChatsController < ApplicationController
     number = REDIS.incr(redis_key)
 
     PersistChatJob.perform_later(@application.id, number)
-
-    render json: { number: number, messages_count: 0 }, status: :created
+    data = { number: number, messages_count: 0}
+    render_success(data: data, message: "Chat created successfully", status: :created) # This was already correct, but good to confirm.
   end
 
   private
