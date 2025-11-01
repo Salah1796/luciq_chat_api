@@ -50,7 +50,10 @@ group :development, :test do
 
 
   # Background jobs
-  gem 'sidekiq'
+
+gem "sidekiq"
+gem "sidekiq-cron"
+
   gem 'sidekiq-scheduler'
   gem 'redis'
 

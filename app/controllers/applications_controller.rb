@@ -16,14 +16,14 @@ class ApplicationsController < ApplicationController
   def create
     token = SecureRandom.hex(16)
     PersistApplicationJob.perform_later(params[:name], token)
-    render json: { token: token, name: params[:name] }, status: :created
+    render json: { token: token, name: params[:name] , chats_count: 0}, status: :created
   end
 
   # PUT /applications/{token}
   def update
      app = Application.find_by!(token: params[:token])
      app.update!(name: params[:name])
-     render json: { name: app.name, token: app.token }
+     render json: { name: app.name, token: app.token , chats_count: app.chats_count}
   end
 
 end

@@ -45,8 +45,3 @@ To run the test suite, run the following command:
 ```
 docker-compose run --rm app bundle exec rails test
 ```
-
-## Bonus Tasks
-
-*   The chat and message creation endpoints are not implemented in Go.
-*   The test suite is not fully implemented.
