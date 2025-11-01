@@ -3,8 +3,8 @@ class MessagesController < ApplicationController
 
   # GET applications/{token}/chats/{number}/messages
   def index
-    messages = @chat.messages.order(:number).select(:number, :body, :created_at)
-    render json: messages.map { |m| {number: m.number, body: m.body , created_at: m.created_at } }
+    messages = @chat.messages.order(:number).pluck(:number, :body, :created_at)
+    render json: messages.map { |number, body, created_at| { number: number, body: body, created_at: created_at } }
   end
 
   # GET applications/{token}/chats/{number}/messages/{number}
@@ -15,6 +15,8 @@ class MessagesController < ApplicationController
 
    # POST applications/{token}/chats/{number}/messages
   def create
+    return render json: { error: 'body is missing' }, status: :bad_request if params[:body].blank?
+
     redis_key = @chat.redis_messages_counter_key
     number = REDIS.incr(redis_key)
     PersistMessageJob.perform_later(@chat.id, number, params[:body])

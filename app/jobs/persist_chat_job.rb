@@ -12,16 +12,10 @@ class PersistChatJob < ApplicationJob
       return
     end
 
-    sql = ActiveRecord::Base.send(
-      :sanitize_sql_array,
-      [
-        "INSERT IGNORE INTO chats (application_id, number, created_at, updated_at) VALUES (?, ?, NOW(), NOW())",
-        application.id,
-        number
-      ]
+    Chat.find_or_create_by!(
+      application_id: application.id,
+      number: number
     )
-
-    Chat.connection.execute(sql)
 
     end_time = Time.current
     Rails.logger.info "✅ PersistChatJob finished at #{end_time} | app_id=#{application_id}, number=#{number} (elapsed #{end_time - start_time} sec)"

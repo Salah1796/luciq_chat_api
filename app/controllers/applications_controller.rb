@@ -2,8 +2,8 @@ class ApplicationsController < ApplicationController
   
   # GET /applications
    def index
-       apps = Application.all
-       render json: apps.map { |a| { name: a.name, token: a.token, chats_count: a.chats_count } }
+       apps = Application.pluck(:name, :token, :chats_count)
+       render json: apps.map { |name, token, chats_count| { name: name, token: token, chats_count: chats_count } }
    end
 
   # GET /applications/{token}
@@ -14,8 +14,9 @@ class ApplicationsController < ApplicationController
 
   # POST /applications
   def create
-    app = Application.create!(name: params[:name])
-    render json: { token: app.token, name: app.name }, status: :created
+    token = SecureRandom.hex(16)
+    PersistApplicationJob.perform_later(params[:name], token)
+    render json: { token: token, name: params[:name] }, status: :created
   end
 
   # PUT /applications/{token}

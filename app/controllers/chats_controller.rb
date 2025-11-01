@@ -3,8 +3,8 @@ class ChatsController < ApplicationController
 
    # GET /applications/{token}/chats
   def index
-    chats = @application.chats.order(:number).select(:number, :messages_count)
-    render json: chats.map { |c| { number: c.number, messages_count: c.messages_count } }
+    chats = @application.chats.order(:number).pluck(:number, :messages_count)
+    render json: chats.map { |number, messages_count| { number: number, messages_count: messages_count } }
   end
 
   # GET /applications/{token}/chats/{number}

@@ -10,9 +10,7 @@ class Message < ApplicationRecord
    return none unless chat_id.present?
    __elasticsearch__.search(query: {
     bool: {
-      must: query.present? ? [
-        { wildcard: { body: "*#{query.downcase}*" } }
-      ] : [],
+      must: query.present? ? { match: { body: query } } : { match_all: {} },
       filter: [
         { term: { chat_id: chat_id } }
       ]
