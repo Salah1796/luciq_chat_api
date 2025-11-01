@@ -10,9 +10,14 @@ class ApplicationsController < ApplicationController
 
   # GET /applications/{token}
   def show
-      data = ApplicationsService.find_by_token(params[:token])
-      render_success(data: data, message: "Application retrieved successfully")
+  data = ApplicationsService.find_by_token(params[:token])
+  if data
+    render_success(data: data, message: "Application retrieved successfully")
+  else
+    render_error(message: "Application not found", status: :not_found)
   end
+end
+
 
   # POST /applications
   def create
@@ -30,8 +35,12 @@ class ApplicationsController < ApplicationController
   # PUT /applications/{token}
   def update
      data = ApplicationsService.update(params[:token], params[:name])
+     if data
      render_success(data: data, message: "Application updated successfully")
+     else
+    render_error(message: "Application not found", status: :not_found)
   end
+end
 
 end
 

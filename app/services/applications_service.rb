@@ -9,9 +9,11 @@ class ApplicationsService
   end
 
   def self.find_by_token(token)
-    app = Application.find_by!(token: token)
-    { name: app.name, token: app.token, chats_count: app.chats_count }
-  end
+     app = Application.find_by(token: token)
+     return nil unless app
+     { name: app.name, token: app.token, chats_count: app.chats_count }
+ end
+
 
   def self.create(name)
     token = SecureRandom.hex(16)
@@ -20,7 +22,8 @@ class ApplicationsService
   end
 
   def self.update(token, name)
-    app = Application.find_by!(token: token)
+    app = Application.find_by(token: token)
+    return nil unless app
     app.update!(name: name)
     Rails.cache.delete(APPLICATION_LIST_CACHE_KEY)
     { name: app.name, token: app.token, chats_count: app.chats_count }
