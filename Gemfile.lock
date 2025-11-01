@@ -376,8 +376,9 @@ DEPENDENCIES
   bundler-audit
   debug
   dotenv-rails
-  elasticsearch-model
-  elasticsearch-rails
+  elasticsearch (~> 8.8)
+  elasticsearch-model (~> 8.0.1)
+  elasticsearch-rails (~> 8.0.1)
   image_processing (~> 1.2)
   kamal
   mysql2 (~> 0.5)

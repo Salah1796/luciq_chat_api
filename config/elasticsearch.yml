@@ -1,0 +1,6 @@
+evelopment: &default
+  host: <%= ENV['ELASTICSEARCH_HOST'] %>
+test:
+  <<: *default
+production:
+  <<: *default

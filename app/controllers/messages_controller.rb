@@ -1,27 +1,30 @@
 class MessagesController < ApplicationController
   before_action :set_chat
 
+  # GET applications/{token}/chats
   def index
     messages = @chat.messages.order(:number).select(:number, :body, :created_at)
-    render json: messages.map { |m| { number: m.number, body: m.body , created_at: m.created_at } }
+    render json: messages.map { |m| {number: m.number, body: m.body , created_at: m.created_at } }
   end
 
+   # POST applications/{token}/chats
   def create
     redis_key = @chat.redis_messages_counter_key
     number = REDIS.incr(redis_key)
-   Rails.logger.info "create message number=#{number} for chat with id =#{@chat.id}"
-  
-   PersistMessageJob.perform_later(@chat.id, number, params[:body])
-
+    PersistMessageJob.perform_later(@chat.id, number, params[:body])
     render json: { number: number }, status: :created
   end
 
+  # GET applications/{token}/chats/{number}/messages/search?q={someText}
   def search
     query = params[:q].to_s.strip
-    return render json: [] if query.empty?
 
-    results = Message.search_in_chat(@chat.id, query).records
-    render json: results.map { |m| { number: m.number, body: m.body } }
+   results = Message.search_messages(query, @chat.id)
+
+  render json: results.map { |m| { number: m.number, body: m.body, created_at: m.created_at } }
+  rescue => e
+    Rails.logger.error("[MessagesController] Search error: #{e.message}")
+    render json: { error: "Search failed" }, status: :internal_server_error
   end
 
   private

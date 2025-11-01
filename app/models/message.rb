@@ -1,32 +1,30 @@
 class Message < ApplicationRecord
+
+   include Searchable
+   SEARCHABLE_FIELDS = [:body, :chat_id, :number, :created_at, :updated_at]
+
   belongs_to :chat, counter_cache: :messages_count
 
-  validates :number, presence: true,
-                     uniqueness: { scope: :chat_id }
-
+  validates :number, presence: true, uniqueness: { scope: :chat_id }
   validates :body, presence: true
 
-  # include Elasticsearch::Model
-  # include Elasticsearch::Model::Callbacks
+  # Search messages in a specific chat with partial match
+def self.search_messages(query, chat_id)
+  return none unless chat_id.present?
 
-  # settings do
-  #   mappings dynamic: false do
-  #     indexes :body, type: :text, analyzer: :english
-  #     indexes :chat_id, type: :integer
-  #     indexes :number, type: :integer
-  #   end
-  # end
+  es_query = {
+    bool: {
+      must: query.present? ? [
+        { wildcard: { body: "*#{query.downcase}*" } }
+      ] : [],
+      filter: [
+        { term: { chat_id: chat_id } }
+      ]
+    }
+  }
 
-  def self.search_in_chat(chat_id, query)
-    # search({
-    #   query: {
-    #     bool: {
-    #       must: [
-    #         { match: { body: query } },
-    #         { term: { chat_id: chat_id } }
-    #       ]
-    #     }
-    #   }
-    # })
-  end
+  __elasticsearch__.search(query: es_query, sort: { created_at: { order: 'asc' } }).records
+end
+
+
 end

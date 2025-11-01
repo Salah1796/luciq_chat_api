@@ -54,9 +54,12 @@ group :development, :test do
   gem 'sidekiq-scheduler'
   gem 'redis'
 
-# Search engine
-  gem 'elasticsearch-model'
-  gem 'elasticsearch-rails'
+  # Core Elasticsearch client
+  gem 'elasticsearch', '~> 8.8'
+
+  # Optional: Rails integration
+  gem 'elasticsearch-model', '~> 8.0.1'
+  gem 'elasticsearch-rails', '~> 8.0.1'
 
 # env variables management
  gem 'dotenv-rails', groups: [:development, :test]

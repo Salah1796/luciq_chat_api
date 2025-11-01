@@ -12,17 +12,19 @@ class PersistMessageJob < ApplicationJob
       return
     end
 
-    sql = ActiveRecord::Base.send(
-      :sanitize_sql_array,
-      [
-        "INSERT IGNORE INTO messages (chat_id, number, body, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())",
-        chat.id,
-        number,
-        body
-      ]
+     message = Message.find_or_create_by!(
+      chat_id: chat.id,
+      number: number,
+      body: body
     )
 
-    Chat.connection.execute(sql)
+     # Index this message in Elasticsearch
+    begin
+      message.__elasticsearch__.index_document
+      Rails.logger.info("✅  Message indexed in Elasticsearch: #{message.id}")
+    rescue => e
+      Rails.logger.error("💥 Failed to index message #{message.id}: #{e.message}")
+    end
 
     end_time = Time.current
     Rails.logger.info "✅ PersistMessageJob finished at #{end_time} | chat_id=#{chat_id}, number=#{number} (elapsed #{end_time - start_time} sec)"
