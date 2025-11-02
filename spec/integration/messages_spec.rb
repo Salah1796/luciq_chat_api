@@ -60,10 +60,10 @@ RSpec.describe 'Messages API', type: :request do
     end
   end
 
-  path '/applications/{application_token}/chats/{chat_number}/messages/{id}' do
+  path '/applications/{application_token}/chats/{chat_number}/messages/{number}' do
     parameter name: :application_token, in: :path, type: :string
     parameter name: :chat_number, in: :path, type: :integer
-    parameter name: :id, in: :path, type: :integer
+    parameter name: :number, in: :path, type: :integer
 
     get('Show message details') do
       tags 'Messages'

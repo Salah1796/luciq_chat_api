@@ -350,6 +350,12 @@ paths:
       summary: List all messages in a chat
       tags:
       - Messages
+      parameters:
+      - name: chat_number
+        in: path
+        required: true
+        schema:
+          type: integer
       responses:
         '200':
           description: successful
@@ -390,7 +396,12 @@ paths:
       summary: Create a new message
       tags:
       - Messages
-      parameters: []
+      parameters:
+      - name: chat_number
+        in: path
+        required: true
+        schema:
+          type: integer
       responses:
         '201':
           description: created
@@ -435,7 +446,7 @@ paths:
                   type: string
               required:
               - body
-  "/applications/{application_token}/chats/{chat_number}/messages/{id}":
+  "/applications/{application_token}/chats/{chat_number}/messages/{number}":
     parameters:
     - name: application_token
       in: path
@@ -447,7 +458,7 @@ paths:
       required: true
       schema:
         type: integer
-    - name: id
+    - name: number
       in: path
       required: true
       schema:
