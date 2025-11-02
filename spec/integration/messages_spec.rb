@@ -3,12 +3,28 @@ require 'swagger_helper'
 RSpec.describe 'Messages API', type: :request do
   path '/applications/{application_token}/chats/{chat_number}/messages' do
     parameter name: :application_token, in: :path, type: :string
-    parameter name: :chat_number, in: :path, type: :integer
-
     get('List all messages in a chat') do
       tags 'Messages'
       produces 'application/json'
       response(200, 'successful') do
+        schema type: :object,
+               properties: {
+                 success: { type: :boolean, example: true },
+                 message: { type: :string, nullable: true, example: nil },
+                 data: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       number: { type: :integer, example: 1 },
+                       body: { type: :string, example: 'Hello World' }
+                     },
+                     required: %w[number body]
+                   }
+                 },
+                 status: { type: :integer, example: 200 }
+               },
+               required: %w[success data status]
         run_test!
       end
     end
@@ -24,6 +40,21 @@ RSpec.describe 'Messages API', type: :request do
       }
 
       response(201, 'created') do
+        schema type: :object,
+               properties: {
+                 success: { type: :boolean, example: true },
+                 message: { type: :string, nullable: true, example: nil },
+                 data: {
+                   type: :object,
+                   properties: {
+                     number: { type: :integer, example: 1 },
+                     body: { type: :string, example: 'Hello World' }
+                   },
+                   required: %w[number body]
+                 },
+                 status: { type: :integer, example: 201 }
+               },
+               required: %w[success data status]
         run_test!
       end
     end
@@ -38,6 +69,21 @@ RSpec.describe 'Messages API', type: :request do
       tags 'Messages'
       produces 'application/json'
       response(200, 'successful') do
+        schema type: :object,
+               properties: {
+                 success: { type: :boolean, example: true },
+                 message: { type: :string, nullable: true, example: nil },
+                 data: {
+                   type: :object,
+                   properties: {
+                     number: { type: :integer, example: 1 },
+                     body: { type: :string, example: 'Hello World' }
+                   },
+                   required: %w[number body]
+                 },
+                 status: { type: :integer, example: 200 }
+               },
+               required: %w[success data status]
         run_test!
       end
     end
@@ -52,6 +98,24 @@ RSpec.describe 'Messages API', type: :request do
       tags 'Messages'
       produces 'application/json'
       response(200, 'successful') do
+        schema type: :object,
+               properties: {
+                 success: { type: :boolean, example: true },
+                 message: { type: :string, nullable: true, example: nil },
+                 data: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       number: { type: :integer, example: 1 },
+                       body: { type: :string, example: 'Hello World' }
+                     },
+                     required: %w[number body]
+                   }
+                 },
+                 status: { type: :integer, example: 200 }
+               },
+               required: %w[success data status]
         run_test!
       end
     end

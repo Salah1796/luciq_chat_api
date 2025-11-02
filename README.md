@@ -1,47 +1,89 @@
 # Luciq Chat API
 
-This is a Ruby on Rails application that provides a chat API. The application is containerized and can be run using Docker Compose.
+This project provides a robust and scalable chat API built with Ruby on Rails. It enables the creation and management of applications, chats within those applications, and messages within those chats. Key features include:
+
+*   **Application Management:** Create, retrieve, and update chat applications.
+*   **Chat Management:** Create and retrieve chats associated with specific applications.
+*   **Message Management:** Create, retrieve, and search messages within chats.
+*   **Containerized Environment:** Easy setup and deployment using Docker.
+
+## Technologies Used
+
+*   **Backend:** Ruby on Rails
+*   **Database:** MySQL
+*   **Background Processing:** Sidekiq (with Redis)
+*   **Search:** Elasticsearch
+*   **API Documentation:** Rswag (OpenAPI/Swagger)
+*   **Containerization:** Docker, Docker Compose
 
 ## Prerequisites
 
-* Docker
-* Docker Compose
+*   Docker
+*   Docker Compose
 
 ## Setup
 
-1.  Clone the repository.
-2.  Run `docker-compose build` to build the Docker images.
-3.  Run `docker-compose up` to start the application.
-4.  Run `docker-compose run --rm app bundle exec rails db:prepare` to create and set up the database.
+Follow these steps to get the Luciq Chat API up and running on your local machine:
 
-The application will be available at `http://localhost:3000`.
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Salah1796/luciq_chat_api
+    cd luciq_chat_api
+    ```
+2.  **Build Docker images:**
+    ```bash
+    docker-compose build
+    ```
+3.  **Start the application:**
+    ```bash
+    docker-compose up -d # Runs in detached mode
+    ```
+
+The application will be accessible at `http://localhost:3000`.
+
+Database preparation (creation, migration, and seeding) is now automated and will run when the application starts.
+
+To stop the application, run:
+```bash
+docker-compose down
+```
+
+## API Documentation (Swagger UI)
+
+Access the interactive API documentation (Swagger UI) at:
+
+`http://localhost:3000/api-docs/index.html`
+
+*Note: If the documentation does not reflect the latest changes, you might need to regenerate it by running `docker-compose run --rm app bundle exec rake rswag:specs:swaggerize`.*
 
 ## API Endpoints
 
+The API provides the following main resources:
+
 ### Applications
 
-*   `GET /applications`: Get all applications.
-*   `GET /applications/{token}`: Get a single application.
-*   `POST /applications`: Create a new application.
-*   `PUT /applications/{token}`: Update an application.
+*   **`GET /applications`**: Retrieve a list of all chat applications.
+*   **`GET /applications/{token}`**: Retrieve details for a specific application using its unique token.
+*   **`POST /applications`**: Create a new chat application.
+*   **`PUT /applications/{token}`**: Update an existing chat application.
 
 ### Chats
 
-*   `GET /applications/{token}/chats`: Get all chats for an application.
-*   `GET /applications/{token}/chats/{number}`: Get a single chat.
-*   `POST /applications/{token}/chats`: Create a new chat.
+*   **`GET /applications/{token}/chats`**: Retrieve all chats associated with a specific application.
+*   **`GET /applications/{token}/chats/{number}`**: Retrieve details for a specific chat within an application using its number.
+*   **`POST /applications/{token}/chats`**: Create a new chat under a specific application.
 
 ### Messages
 
-*   `GET /applications/{token}/chats/{number}/messages`: Get all messages for a chat.
-*   `GET /applications/{token}/chats/{number}/messages/{number}`: Get a single message.
-*   `POST /applications/{token}/chats/{number}/messages`: Create a new message.
-*   `GET /applications/{token}/chats/{number}/messages/search?q={someText}`: Search for messages in a chat.
+*   **`GET /applications/{token}/chats/{number}/messages`**: Retrieve all messages within a specific chat.
+*   **`GET /applications/{token}/chats/{number}/messages/{number}`**: Retrieve details for a specific message within a chat using its number.
+*   **`POST /applications/{token}/chats/{number}/messages`**: Create a new message within a specific chat.
+*   **`GET /applications/{token}/chats/{number}/messages/search?q={someText}`**: Search for messages within a specific chat using a query string.
 
 ## Running the test suite
 
-To run the test suite, run the following command:
+To run the test suite, execute the following command:
 
-```
+```bash
 docker-compose run --rm app bundle exec rails test
 ```

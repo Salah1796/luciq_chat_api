@@ -8,6 +8,24 @@ RSpec.describe 'Chats API', type: :request do
       tags 'Chats'
       produces 'application/json'
       response(200, 'successful') do
+        schema type: :object,
+               properties: {
+                 success: { type: :boolean, example: true },
+                 message: { type: :string, nullable: true, example: nil },
+                 data: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       number: { type: :integer, example: 1 },
+                       messages_count: { type: :integer, example: 0 }
+                     },
+                     required: %w[number messages_count]
+                   }
+                 },
+                 status: { type: :integer, example: 200 }
+               },
+               required: %w[success data status]
         run_test!
       end
     end
@@ -16,6 +34,21 @@ RSpec.describe 'Chats API', type: :request do
       tags 'Chats'
       produces 'application/json'
       response(201, 'created') do
+        schema type: :object,
+               properties: {
+                 success: { type: :boolean, example: true },
+                 message: { type: :string, nullable: true, example: nil },
+                 data: {
+                   type: :object,
+                   properties: {
+                     number: { type: :integer, example: 1 },
+                     messages_count: { type: :integer, example: 0 }
+                   },
+                   required: %w[number messages_count]
+                 },
+                 status: { type: :integer, example: 201 }
+               },
+               required: %w[success data status]
         run_test!
       end
     end
@@ -29,6 +62,21 @@ RSpec.describe 'Chats API', type: :request do
       tags 'Chats'
       produces 'application/json'
       response(200, 'successful') do
+        schema type: :object,
+               properties: {
+                 success: { type: :boolean, example: true },
+                 message: { type: :string, nullable: true, example: nil },
+                 data: {
+                   type: :object,
+                   properties: {
+                     number: { type: :integer, example: 1 },
+                     messages_count: { type: :integer, example: 0 }
+                   },
+                   required: %w[number messages_count]
+                 },
+                 status: { type: :integer, example: 200 }
+               },
+               required: %w[success data status]
         run_test!
       end
     end

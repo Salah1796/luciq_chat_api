@@ -12,6 +12,43 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        token:
+                          type: string
+                          example: some_token
+                        name:
+                          type: string
+                          example: My Application
+                        chats_count:
+                          type: integer
+                          example: 0
+                      required:
+                      - token
+                      - name
+                      - chats_count
+                  status:
+                    type: integer
+                    example: 200
+                required:
+                - success
+                - data
+                - status
     post:
       summary: Create an application
       tags:
@@ -20,6 +57,41 @@ paths:
       responses:
         '201':
           description: created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: some_token
+                      name:
+                        type: string
+                        example: My Application
+                      chats_count:
+                        type: integer
+                        example: 0
+                    required:
+                    - token
+                    - name
+                    - chats_count
+                  status:
+                    type: integer
+                    example: 201
+                required:
+                - success
+                - data
+                - status
       requestBody:
         content:
           application/json:
@@ -45,6 +117,41 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: some_token
+                      name:
+                        type: string
+                        example: My Application
+                      chats_count:
+                        type: integer
+                        example: 0
+                    required:
+                    - token
+                    - name
+                    - chats_count
+                  status:
+                    type: integer
+                    example: 200
+                required:
+                - success
+                - data
+                - status
     patch:
       summary: Update an application
       tags:
@@ -53,6 +160,41 @@ paths:
       responses:
         '200':
           description: updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: some_token
+                      name:
+                        type: string
+                        example: My Application
+                      chats_count:
+                        type: integer
+                        example: 0
+                    required:
+                    - token
+                    - name
+                    - chats_count
+                  status:
+                    type: integer
+                    example: 200
+                required:
+                - success
+                - data
+                - status
       requestBody:
         content:
           application/json:
@@ -76,6 +218,39 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        number:
+                          type: integer
+                          example: 1
+                        messages_count:
+                          type: integer
+                          example: 0
+                      required:
+                      - number
+                      - messages_count
+                  status:
+                    type: integer
+                    example: 200
+                required:
+                - success
+                - data
+                - status
     post:
       summary: Create a chat under an application
       tags:
@@ -83,6 +258,37 @@ paths:
       responses:
         '201':
           description: created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: object
+                    properties:
+                      number:
+                        type: integer
+                        example: 1
+                      messages_count:
+                        type: integer
+                        example: 0
+                    required:
+                    - number
+                    - messages_count
+                  status:
+                    type: integer
+                    example: 201
+                required:
+                - success
+                - data
+                - status
   "/applications/{application_token}/chats/{number}":
     parameters:
     - name: application_token
@@ -102,6 +308,37 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: object
+                    properties:
+                      number:
+                        type: integer
+                        example: 1
+                      messages_count:
+                        type: integer
+                        example: 0
+                    required:
+                    - number
+                    - messages_count
+                  status:
+                    type: integer
+                    example: 200
+                required:
+                - success
+                - data
+                - status
   "/applications/{application_token}/chats/{chat_number}/messages":
     parameters:
     - name: application_token
@@ -109,11 +346,6 @@ paths:
       required: true
       schema:
         type: string
-    - name: chat_number
-      in: path
-      required: true
-      schema:
-        type: integer
     get:
       summary: List all messages in a chat
       tags:
@@ -121,6 +353,39 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        number:
+                          type: integer
+                          example: 1
+                        body:
+                          type: string
+                          example: Hello World
+                      required:
+                      - number
+                      - body
+                  status:
+                    type: integer
+                    example: 200
+                required:
+                - success
+                - data
+                - status
     post:
       summary: Create a new message
       tags:
@@ -129,6 +394,37 @@ paths:
       responses:
         '201':
           description: created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: object
+                    properties:
+                      number:
+                        type: integer
+                        example: 1
+                      body:
+                        type: string
+                        example: Hello World
+                    required:
+                    - number
+                    - body
+                  status:
+                    type: integer
+                    example: 201
+                required:
+                - success
+                - data
+                - status
       requestBody:
         content:
           application/json:
@@ -163,6 +459,37 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: object
+                    properties:
+                      number:
+                        type: integer
+                        example: 1
+                      body:
+                        type: string
+                        example: Hello World
+                    required:
+                    - number
+                    - body
+                  status:
+                    type: integer
+                    example: 200
+                required:
+                - success
+                - data
+                - status
   "/applications/{application_token}/chats/{chat_number}/messages/search":
     parameters:
     - name: application_token
@@ -187,9 +514,41 @@ paths:
       responses:
         '200':
           description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    example:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        number:
+                          type: integer
+                          example: 1
+                        body:
+                          type: string
+                          example: Hello World
+                      required:
+                      - number
+                      - body
+                  status:
+                    type: integer
+                    example: 200
+                required:
+                - success
+                - data
+                - status
 servers:
-- url: http://localhost:3000
-  description: Local server
+- url: http://{defaultHost}
   variables:
     defaultHost:
       default: localhost:3000
