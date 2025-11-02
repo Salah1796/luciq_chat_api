@@ -1,9 +1,25 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require 'securerandom'
+
+# Clear previous data (optional, ensures a fresh start)
+Message.delete_all
+Chat.delete_all
+Application.delete_all
+
+# Create 12 applications with 10 chats each, and 10 messages per chat
+12.times do |i|
+  app_name = "Chat App #{i + 1}"
+  application = Application.create!(name: app_name)
+  puts "Created Application: #{application.name} with token: #{application.token}"
+
+  10.times do |j|
+    chat_number = j + 1
+    chat = application.chats.create!(number: chat_number)
+    puts "  Created Chat number: #{chat.number} for Application: #{application.name}"
+
+    10.times do |k|
+      message_body = "Message #{k + 1} in Chat #{chat_number} of #{app_name}."
+      chat.messages.create!(number: k + 1, body: message_body)
+    end
+    puts "    Created 10 messages for Chat number: #{chat.number}"
+  end
+end
