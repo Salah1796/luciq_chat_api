@@ -1,10 +1,5 @@
 require 'securerandom'
 
-# Clear previous data (optional, ensures a fresh start)
-Message.delete_all
-Chat.delete_all
-Application.delete_all
-
 # Create 12 applications with 10 chats each, and 10 messages per chat
 12.times do |i|
   app_name = "Chat App #{i + 1}"
