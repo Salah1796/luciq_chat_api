@@ -110,10 +110,10 @@ GEM
     elastic-transport (8.4.1)
       faraday (< 3)
       multi_json
-    elasticsearch (8.19.1)
+    elasticsearch (8.19.2)
       elastic-transport (~> 8.3)
-      elasticsearch-api (= 8.19.1)
-    elasticsearch-api (8.19.1)
+      elasticsearch-api (= 8.19.2)
+    elasticsearch-api (8.19.2)
       multi_json
     elasticsearch-model (8.0.1)
       activesupport (> 3)
@@ -128,8 +128,8 @@ GEM
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-net_http (3.4.1)
-      net-http (>= 0.5.0)
+    faraday-net_http (3.4.2)
+      net-http (~> 0.5)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
     ffi (1.17.2-arm-linux-gnu)
@@ -152,7 +152,7 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    json (2.15.2)
+    json (2.16.0)
     json-schema (5.2.2)
       addressable (~> 2.8)
       bigdecimal (~> 3.1)
@@ -398,7 +398,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.1.0)
+    uri (1.1.1)
     useragent (0.16.11)
     websocket-driver (0.8.0)
       base64
@@ -422,7 +422,7 @@ DEPENDENCIES
   bundler-audit
   debug
   dotenv-rails
-  elasticsearch (~> 8.8)
+  elasticsearch (~> 8.19)
   elasticsearch-model (~> 8.0.1)
   elasticsearch-rails (~> 8.0.1)
   image_processing (~> 1.2)
