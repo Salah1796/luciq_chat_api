@@ -58,7 +58,7 @@ gem "sidekiq-cron"
   gem 'redis'
 
   # Core Elasticsearch client
-  gem 'elasticsearch', '~> 8.8'
+  gem 'elasticsearch', '~> 8.19'
 
   # Optional: Rails integration
   gem 'elasticsearch-model', '~> 8.0.1'
